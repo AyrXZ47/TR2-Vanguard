@@ -7,13 +7,14 @@
  \geometry{top=2.5cm, bottom=2.5cm, left=3cm, right=2.5cm}
 \usepackage{graphicx}
 \usepackage{amsmath, amssymb}
-\usepackage{hyperref}
+\usepackage[hidelinks]{hyperref}
 \usepackage{xcolor}
 \usepackage{listings} % Para código
 \usepackage{booktabs} % Tablas pro
 \usepackage{fancyhdr} 
+\setlength{\headheight}{15pt}
 
-% --- DEFINICIÓN MANUAL DE RUST (FIX PARA EL ERROR) ---
+% --- DEFINICIÓN MANUAL DE RUST ---
 \lstdefinelanguage{Rust}{
   keywords={fn, let, mut, if, else, while, for, return, match, impl, struct, enum, pub, mod, use, crate, true, false},
   keywordstyle=\color{orange}\bfseries,
@@ -58,38 +59,90 @@
 
 \begin{document}
 
+
+
+
+
+
 % --- PORTADA ---
 \begin{titlepage}
-    \centering
-    \vspace*{2cm}
-    
-    {\Huge \textbf{TR-2 "VANGUARD"}} \\
-    \vspace{0.5cm}
-    {\Large \textbf{Technical Design Report - Phase A}} \\
-    \vspace{0.2cm}
-    {\large Definition \& Architecture}
-    
-    \vspace{2cm}
-    \textbf{\Large CONFIDENTIAL / INTERNAL USE ONLY}
-    
-    \vfill
-    
-    \begin{flushright}
-        \textbf{Prepared for:} ENMICE 2026 Committee \\
-        \textbf{Approved by:} Arnold Y. Rios | Chief Engineer \\
-        \textbf{Date:} November 2025 \\
-        \textbf{Version:} 1.0 (Draft)
-    \end{flushright}
+    \newgeometry{left=2.5cm, right=2.5cm, top=2cm, bottom=2cm}
+    \thispagestyle{empty}
+
+    % --- SECCIÓN SUPERIOR: LOGO Y LÍNEAS HORIZONTALES ---
+    \noindent
+    \begin{minipage}[c]{0.25\textwidth} % Columna del Logo
+        \includegraphics[width=3.5cm]{img/DSTLogoNew.png} 
+    \end{minipage}%
+    \hfill
+    \begin{minipage}[c]{0.70\textwidth} % Columna de las líneas horizontales
+        \rule{\textwidth}{2pt} \\   % Línea gruesa superior
+        \vspace{0.1cm}              % Espacio pequeño
+        \rule{\textwidth}{1pt}      % Línea fina inferior
+    \end{minipage}
+
+    \vspace{1.5cm} % Espacio antes del cuerpo
+
+    % --- SECCIÓN CENTRAL: LÍNEAS VERTICALES Y TEXTO ---
+    \noindent
+    \begin{minipage}[t]{0.10\textwidth} 
+        % Líneas verticales laterales
+        \rule{4pt}{14cm} \hspace{0.3cm} \rule{1pt}{12cm} 
+    \end{minipage}%
+    \hfill
+    \begin{minipage}[t]{0.85\textwidth} 
+        \vspace{-14cm} % Tiramos el texto hacia arriba
+        \begin{center} % <--- TEXTO CENTRADO 
+            
+            \vspace{1.5cm} 
+            {\Huge \textbf{TR-2 "Vanguard"}} \\[0.3cm]
+            
+            \vspace{2cm}
+            
+            {\Large \textbf{Technical Design Report:}} \\[0.2cm]
+            {\Large Definition \& Architecture}
+            
+            \vspace{5cm} 
+            
+            \textbf{Prepared for:} ENMICE 2026 Committee \\
+            \textbf{Chief Engineer:} Yovick RZ \\
+            \textbf{Date:} November 2025
+            
+        \end{center}
+    \end{minipage}
+
+    \restoregeometry
 \end{titlepage}
+ 
+
+
 
 \tableofcontents
 \newpage
 
-% --- CONTENIDO ---
+% --- INICIO DEL CAPÍTULO 1 ---
 \chapter{Definición de Misión}
 
-\section{Doctrina de Diseño}
-\textbf{Doctrina: Determinismo Industrial.} En el proyecto DST-26 (Dragons Space Team 2026), la ambigüedad es un fallo de sistema. Cada componente, desde la línea de código en Rust hasta la costura del paracaídas, debe tener una justificación funcional cuantificable. Rechazamos la estética vacía; nuestra estética es la ingeniería expuesta. Si un sistema no añade redundancia o eficiencia, se elimina.
+La misión \textbf{TR-2 "Vanguard"} tiene como objetivo principal el diseño, manufactura y lanzamiento de un Vehículo de Lanzamiento Reutilizable Suborbital (SRLV) de una sola etapa. El vehículo transportará una carga útil estandarizada tipo \textit{TubeSat} a un apogeo objetivo de 3 km AGL (Above Ground Level).
+
+La misión prioriza la validación de sistemas de aviónica crítica desarrollados en lenguaje \textbf{Rust}, la implementación de arquitecturas de hardware modular (V-BUS) y la demostración de aplicaciones de sistemas de ciberseguridad espacial. El vehículo operará bajo una doctrina de 'fiabilidad industrial', eliminando la complejidad innecesaria en favor de la robustez mecánica y lógica.
+
+
+
+\section{Doctrina de Diseño: Determinismo Industrial}
+En este proyecto, la ambigüedad es un fallo de sistema. Cada componente, desde la línea de código en Rust hasta la costura del paracaídas, debe tener una justificación funcional cuantificable. Rechazamos la estética vacía; nuestra estética es la ingeniería expuesta. Si un sistema no añade redundancia o eficiencia, se elimina.
+
+
+
+\begin{itemize}
+    \item \textbf{Funcionalismo Brutalista:} La estética del vehículo es consecuencia directa de su ingeniería. Se rechazan acabados cosméticos que añadan peso sin aportar protección térmica o estructural.
+    \item \textbf{Cero incongruencias:} Todo subsistema, desde el algoritmo de control hasta la mezcla del propelente, debe ser explicable, auditable y reparable por el equipo.
+    \item \textbf{Safety-Critical Software:} Se prohíbe el uso de lenguajes sin gestión de memoria segura en la aviónica de vuelo. La implementación se realizará estrictamente en Rust para prevenir \textit{runtime errors}.
+    \item \textbf{Redundancia Asimétrica:} Los sistemas críticos (recuperación) deben tener mecanismos de respaldo que operen bajo principios físicos diferentes a los primarios.
+\end{itemize}
+
+
+
 
 \section{Especificaciones Maestras}
 La siguiente tabla define los parámetros innegociables del vehículo:
@@ -104,25 +157,192 @@ La siguiente tabla define los parámetros innegociables del vehículo:
         Vuelo & Apogeo Estimado & 4.7 km \\ 
         Propulsión & Propelente & KnSB (68/30/1/1) \\ \bottomrule
     \end{tabular}
-    \caption{Parámetros de Diseño Fase A}
+    \caption{Parámetros de Diseño}
 \end{table}
 
-\chapter{Arquitectura de Aviónica}
 
-\section{Implementación en Rust}
-El sistema de telemetría utiliza seguridad de memoria garantizada. A continuación un ejemplo del \textit{Main Loop} seguro:
 
-\begin{lstlisting}[language=Rust, caption=Secuencia de Inicio Segura]
-fn main() {
-    let mision = "Vanguard";
-    // Verificacion de memoria antes del lanzamiento
-    println!("Iniciando secuencia para {}", mision);
-    
-    let checklist = vec!["Sensores", "GPS", "LoRa"];
-    for item in checklist {
-        println!("Check: {} ... OK", item);
-    }
-}
+
+
+
+\section{Objetivos de Éxito (Success Criteria)}
+Siguiendo la filosofía de resistencia tipo Le Mans ("To finish is to win"), el éxito se escalona en:
+
+\begin{enumerate}
+    \item \textbf{Misión Primaria (Crítica):} Recuperación íntegra del vehículo y la carga útil. Un vuelo exitoso que termine en un aterrizaje destructivo se considera un fallo de misión.
+    \item \textbf{Misión Secundaria (Técnica):} Adquisición y transmisión de telemetría en tiempo real mediante enlace LoRa encriptado, sin pérdida de paquetes superior al 5\%.
+    \item \textbf{Misión Terciaria (Experimental):} Despliegue exitoso del TubeSat en el apogeo y verificación de su descenso independiente.
+\end{enumerate}
+
+% --- FIN DEL CAPÍTULO 1 ---
+
+
+\chapter{Arquitectura del Vehículo}
+
+\section{Configuración Aerodinámica}
+El vehículo \textbf{TR-2 ``Vanguard''} es un cohete de sondeo de una sola etapa (SRLV) diseñado bajo principios de estabilidad pasiva supersónica. El diseño aerodinámico prioriza la minimización del arrastre de onda a velocidades transónicas (Mach 0.8 - 1.2).
+
+\begin{itemize}
+    \item \textbf{Fuselaje (Airframe):} Tubo de fibra de vidrio de 4 pulgadas (102 mm) de diámetro, basado en la geometría probada de modelos tipo \textit{Madcow DX3} y \textit{LOC Hyperloc}. Material seleccionado por su transparencia a radiofrecuencia (RF), vital para la telemetría interna.
+    \item \textbf{Ogiva (Nose Cone):} Perfil \textit{Von Kármán} o Tangente Ogiva (según disponibilidad de manufactura), con una relación de longitud/diámetro de 5:1 para optimizar el corte aerodinámico a Mach 1.2+. Referencia: \textit{Nose Cone Design} [MIT Rocket Team].
+    \item \textbf{Superficies de Control (Aletas):} Configuración de 3 aletas trapezoidales con perfil aerodinámico \textit{NACA 0010} simétrico. Fabricadas en placa de fibra de carbono/epoxi para resistir el \textit{flutter} supersónico.
+\end{itemize}
+
+\section{Simulación de Vuelo (OpenRocket)}
+Las simulaciones de Montecarlo indican un rendimiento nominal alineado con los objetivos de la misión:
+
+\begin{table}[h]
+    \centering
+    \begin{tabular}{@{}ll@{}}
+        \toprule
+        \textbf{Parámetro} & \textbf{Valor Simulado} \\ \midrule
+        Longitud Total & 210 cm \\
+        Diámetro Máximo & 10.2 cm (4 in) \\
+        Masa al Despegue (GLOW) & 4,184 g (Seco) / 9,756 g (Cargado) \\
+        Estabilidad Estática & 2.50 cal (Margen de seguridad > 2.0) \\
+        Apogeo Estimado & 3,166 m AGL (aprox. 10,387 ft) \\
+        Velocidad Máxima & 413 m/s (Mach 1.21) \\
+        Aceleración Máxima & 218 m/s$^2$ ($\approx$ 22 G) \\ \bottomrule
+    \end{tabular}
+    \caption{Datos de vuelo nominal (OpenRocket v23.09)}
+\end{table}
+
+
+\chapter{Sistema de Propulsión: Motor ``Trinity''}
+
+\section{Designación y Filosofía}
+El motor de combustible sólido \textbf{DST-L1780 ``Trinity''} debe su nombre al sitio de la primera detonación nuclear, en honor a J. Robert Oppenheimer, simbolizando el paso de la teoría a la potencia bruta. No reinventamos la rueda; optimizamos la física conocida.
+
+El diseño geométrico se basa en el hardware comercial \textit{Cesaroni Pro75-5G} (Carcasa 6268M1401-P), adaptado para manufactura propia bajo estándares de fiabilidad industrial.
+
+\section{Ingeniería Química (Propelente)}
+Se utiliza una variante catalizada del propulsor KNSB (Nitrato de Potasio / Sorbitol). A diferencia de la proporción clásica de Nakka (65/35), el motor Trinity emplea una formulación agresiva para maximizar el $I_{sp}$ volumétrico:
+
+\begin{itemize}
+    \item \textbf{Oxidante:} 68\% Nitrato de Potasio ($KNO_3$).
+    \item \textbf{Combustible:} 30\% Sorbitol ($C_6H_{14}O_6$).
+    \item \textbf{Catalizador:} 1\% Óxido de Hierro Rojo ($Fe_2O_3$) para aumentar la tasa de quemado.
+    \item \textbf{Aditivo Térmico:} 1\% Aluminio en polvo (Malla 200-300) para estabilidad de combustión y firma visual.
+\end{itemize}
+
+\section{Manufactura y Hardware}
+\begin{itemize}
+    \item \textbf{Carcasa (Casing):} Aluminio 6061-T6, mecanizado para soportar presiones de cámara de operación nominal de 700 psi (con factor de seguridad 1.5x).
+    \item \textbf{Tobera:} Grafito de alta densidad mecanizado con ángulo de convergencia de 30$^\circ$ y divergencia de 12-15$^\circ$ para expansión óptima a 2,400 msnm (Zacatecas).
+    \item \textbf{Aislamiento:} Granos de propelente fundidos (casting) dentro de tubos de cartón Kraft fenólico inhibidos externamente. Configuración BATES (5 granos).
+\end{itemize}
+
+\begin{lstlisting}[language=python, caption=Especificaciones OpenMotor]
+Motor Class:      L (98% L impulse)
+Total Impulse:    3952 Ns
+Avg Thrust:       1780 N
+Burn Time:        2.19 s
+Propellant Mass:  3.07 kg
+Specific Impulse: 131.2 s (Simulado)
 \end{lstlisting}
+
+
+\chapter{Aviónica y Ciber-Sistemas}
+
+\section{Arquitectura de Hardware (TubeSat Standard)}
+El cerebro del vehículo rompe con la tradición de microcontroladores simples. Se implementa una arquitectura basada en Linux Embebido para soportar cargas de trabajo de seguridad y multimedia.
+
+\begin{itemize}
+    \item \textbf{OBC (On-Board Computer):} Raspberry Pi Zero 2 W.
+    \item \textbf{Sistema Operativo:} Fedora IoT (Aarch64) con \textbf{SELinux} en modo \textit{Enforcing}. Esto garantiza que ningún proceso no autorizado (buffer overflow o inyección) pueda acceder a los periféricos críticos de vuelo.
+    \item \textbf{Sensores:}
+        \begin{itemize}
+            \item IMU de 9 ejes (Acelerómetro, Giroscopio, Magnetómetro).
+            \item Barómetro de alta precisión (MS5611 o BMP390) para altimetría.
+            \item Monitoreo individual de celdas LiPo (Voltaje/Corriente).
+        \end{itemize}
+\end{itemize}
+
+\section{Software Crítico: Rust \& IA}
+\begin{itemize}
+    \item \textbf{Rust Flight Core:} El software de telemetría y control está escrito 100\% en Rust. El sistema de tipos y el \textit{Borrow Checker} eliminan matemáticamente los errores de segmentación de memoria en tiempo de vuelo.
+    \item \textbf{Ciberseguridad Ofensiva/Defensiva:} El enlace de datos no es solo texto plano. Implementa firma digital de paquetes. El sistema está "abierto" a desafíos de \textit{pentesting} durante la fase de espera en rampa, demostrando la robustez de SELinux.
+    \item \textbf{IA (Gemma Destilado):} Se emplea un modelo de lenguaje pequeño (SLM) en la Estación Terrena para análisis semántico de errores. Si la telemetría se corrompe, la IA reconstruye el contexto del paquete basándose en el historial de vuelo.
+    \item \textbf{Ground Station (TUI):} Interfaz de usuario basada en terminal (Ratatui) para máxima eficiencia de recursos y estética \textit{High-Tech}.
+\end{itemize}
+
+
+
+\chapter{Sistemas de Recuperación}
+
+El vehículo emplea una estrategia de Despliegue Dual (Dual Deploy) simplificada mecánicamente para aumentar la fiabilidad.
+
+\begin{enumerate}
+    \item \textbf{Apogeo (3,166 m):} Separación del fuselaje y despliegue del paracaídas piloto (Drogue) y del TubeSat. El vehículo desciende rápidamente bajo el piloto para evitar deriva por viento.
+    \item \textbf{350 metros AGL (Main Event):} Activación del dispositivo \textbf{Jolly Logic Chute Release}. Este dispositivo electromecánico mantiene el paracaídas principal (Toroide o Cruciforme) plegado hasta esta altura, donde lo libera. Esto elimina la necesidad de cargas pirotécnicas secundarias complejas.
+\end{enumerate}
+
+
+
+
+
+
+% --- BIBLIOGRAFÍA Y REFERENCIAS ---
+\begin{thebibliography}{99}
+
+% Teoría y Diseño
+\bibitem{mit}
+MIT Rocket Team.
+\textit{Nose Cone Design \& Stability Analysis}. % <--- AQUÍ ESTABA EL ERROR (CORREGIDO)
+\url{https://wikis.mit.edu/confluence/display/RocketTeam/}
+
+\bibitem{nakka}
+Richard Nakka.
+\textit{Experimental Rocketry: KNSB Propellant \& Theory}.
+\url{https://www.nakka-rocketry.net/lambda_p.html}
+
+\bibitem{mountain}
+Mountain Man Rockets.
+\textit{High Power Rocketry Primer}.
+\url{https://www.mountainmanrockets.com/index.php/hpr-primer/}
+
+% Hardware y Componentes
+\bibitem{jolly}
+Jolly Logic.
+\textit{Chute Release System}.
+\url{https://jollylogic.com/products/chuterelease/}
+
+\bibitem{madcow}
+Madcow Rocketry.
+\textit{Super DX3 Kit Specifications}.
+\url{https://www.madcowrocketry.com/4-super-dx3/}
+
+\bibitem{loc}
+LOC Precision.
+\textit{Hyperloc 835 Specifications}.
+\url{https://locprecision.com/products/hyperloc-835}
+
+% Datos Aerodinámicos
+\bibitem{naca0010}
+Airfoil Tools.
+\textit{NACA 0010 Airfoil Details}.
+\url{http://airfoiltools.com/airfoil/details?airfoil=naca0010-il}
+
+% Recursos Audiovisuales (Videos de Referencia)
+\bibitem{vid_manufacturing}
+YouTube: \textit{Composite Rocket Manufacturing}.
+\url{https://www.youtube.com/watch?v=PIy42B6BNwk}
+
+\bibitem{vid_motor}
+YouTube: \textit{Sugar Motor Static Test}.
+\url{https://www.youtube.com/watch?v=isMdw3JXQlE}
+
+\end{thebibliography}
+
+
+
+
+
+
+
+ 
+ 
+
+
 
 \end{document}
