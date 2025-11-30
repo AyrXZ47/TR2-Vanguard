@@ -1,0 +1,128 @@
+\documentclass[12pt, letterpaper]{report}
+
+% --- PAQUETES ---
+\usepackage[utf8]{inputenc}
+\usepackage[spanish, mexico]{babel}
+\usepackage{geometry}
+ \geometry{top=2.5cm, bottom=2.5cm, left=3cm, right=2.5cm}
+\usepackage{graphicx}
+\usepackage{amsmath, amssymb}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{listings} % Para código
+\usepackage{booktabs} % Tablas pro
+\usepackage{fancyhdr} 
+
+% --- DEFINICIÓN MANUAL DE RUST (FIX PARA EL ERROR) ---
+\lstdefinelanguage{Rust}{
+  keywords={fn, let, mut, if, else, while, for, return, match, impl, struct, enum, pub, mod, use, crate, true, false},
+  keywordstyle=\color{orange}\bfseries,
+  ndkeywords={self, String, Option, Result, u32, i32, f64, Vec},
+  ndkeywordstyle=\color{purple}\bfseries,
+  identifierstyle=\color{white},
+  sensitive=true,
+  comment=[l]{//},
+  morecomment=[s]{/*}{*/},
+  commentstyle=\color{gray}\ttfamily,
+  stringstyle=\color{green}\ttfamily,
+  morestring=[b]"
+}
+
+% --- ESTILO VISUAL DE CÓDIGO ---
+\definecolor{backcolour}{rgb}{0.15,0.15,0.15} % Fondo oscuro
+
+\lstdefinestyle{miEstilo}{
+    backgroundcolor=\color{backcolour},   
+    basicstyle=\ttfamily\footnotesize\color{white},
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2,
+    frame=single,
+    rulecolor=\color{white}
+}
+\lstset{style=miEstilo}
+
+% --- CABECERAS ---
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{\textbf{TR-2 "VANGUARD"}}
+\lhead{DST 26}
+\cfoot{\thepage}
+
+\begin{document}
+
+% --- PORTADA ---
+\begin{titlepage}
+    \centering
+    \vspace*{2cm}
+    
+    {\Huge \textbf{TR-2 "VANGUARD"}} \\
+    \vspace{0.5cm}
+    {\Large \textbf{Technical Design Report - Phase A}} \\
+    \vspace{0.2cm}
+    {\large Definition \& Architecture}
+    
+    \vspace{2cm}
+    \textbf{\Large CONFIDENTIAL / INTERNAL USE ONLY}
+    
+    \vfill
+    
+    \begin{flushright}
+        \textbf{Prepared for:} ENMICE 2026 Committee \\
+        \textbf{Approved by:} Arnold Y. Rios | Chief Engineer \\
+        \textbf{Date:} November 2025 \\
+        \textbf{Version:} 1.0 (Draft)
+    \end{flushright}
+\end{titlepage}
+
+\tableofcontents
+\newpage
+
+% --- CONTENIDO ---
+\chapter{Definición de Misión}
+
+\section{Doctrina de Diseño}
+\textbf{Doctrina: Determinismo Industrial.} En el proyecto DST-26 (Dragons Space Team 2026), la ambigüedad es un fallo de sistema. Cada componente, desde la línea de código en Rust hasta la costura del paracaídas, debe tener una justificación funcional cuantificable. Rechazamos la estética vacía; nuestra estética es la ingeniería expuesta. Si un sistema no añade redundancia o eficiencia, se elimina.
+
+\section{Especificaciones Maestras}
+La siguiente tabla define los parámetros innegociables del vehículo:
+
+\begin{table}[h]
+    \centering
+    \begin{tabular}{@{}lll@{}}
+        \toprule
+        \textbf{Categoría} & \textbf{Parámetro} & \textbf{Valor Objetivo} \\ \midrule
+        Geometría & Longitud Total & 2060 mm \\
+        Masa & Peso al Despegue (GLOW) & 9.38 kg \\
+        Vuelo & Apogeo Estimado & 4.7 km \\ 
+        Propulsión & Propelente & KnSB (68/30/1/1) \\ \bottomrule
+    \end{tabular}
+    \caption{Parámetros de Diseño Fase A}
+\end{table}
+
+\chapter{Arquitectura de Aviónica}
+
+\section{Implementación en Rust}
+El sistema de telemetría utiliza seguridad de memoria garantizada. A continuación un ejemplo del \textit{Main Loop} seguro:
+
+\begin{lstlisting}[language=Rust, caption=Secuencia de Inicio Segura]
+fn main() {
+    let mision = "Vanguard";
+    // Verificacion de memoria antes del lanzamiento
+    println!("Iniciando secuencia para {}", mision);
+    
+    let checklist = vec!["Sensores", "GPS", "LoRa"];
+    for item in checklist {
+        println!("Check: {} ... OK", item);
+    }
+}
+\end{lstlisting}
+
+\end{document}
