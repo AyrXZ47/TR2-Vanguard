@@ -1,0 +1,23 @@
+# --- LaTeX (Basura de compilación) ---
+*.aux
+*.log
+*.out
+*.toc
+*.synctex.gz
+*.fdb_latexmk
+*.fls
+
+# --- OpenRocket / OpenMotor ---
+*.ork~
+*.bak
+*.eng~
+
+# --- Rust (Para tu código de aviónica) ---
+/target/
+**/*.rs.bk
+
+# --- Sistema / Editores ---
+.DS_Store
+.vscode/
+.idea/
+*.swp  # Archivos temporales de Vim/Neovim
