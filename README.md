@@ -1,39 +1,62 @@
-# TR2-Vanguard
+# TR-2 Vanguard Project 🚀
 
-![TR-2 Vanguard Vehicle](docs/img/TR-2-Vanguard.png)
+> **Misión de Certificación L2 / Plataforma de Investigación Experimental**
+>
+> *Deep Space Technologies (DST)*
 
-Technical Design Report (Phase A) and engineering assets for the TR-2 "Vanguard" SRLV mission. Features Industrial Reliability Doctrine, Rust-based safety-critical avionics, TubeSat payload integration, and Non-Euclidean recovery systems.
+El **TR-2 Vanguard** es un vehículo de lanzamiento de alta potencia diseñado para validar tecnologías avanzadas de propulsión, aviónica y recuperación. Este repositorio contiene la documentación técnica, simulaciones, código fuente y diseños de hardware del proyecto completo.
 
-## Mission Specifications
+## 📋 Resumen Técnico
 
-![Vanguard Specs](docs/img/TR-2-Vanguard-4-Specs.png)
+El proyecto integra múltiples disciplinas de ingeniería para alcanzar un apogeo nominal de **3,166 metros AGL** con recuperación controlada.
 
-## Project Structure
+### 🔥 Propulsión: Motor "Trinity" (DST-L1780)
+*   **Clase:** L (High Power Rocketry).
+*   **Química:** KNSB Catalizado (Nitrato de Potasio / Sorbitol / Óxido de Hierro / Aluminio).
+*   **Ingeniería:** Grano con geometría BATES optimizada y tobera de grafito de alta densidad para soportar temperaturas de $\approx 3600^\circ C$.
+*   **Hardware:** Carcasa 6061-T6 tipo 6268M.
 
-The repository is organized as follows:
+### 💻 Aviónica y Software
+*   **Flight Core:** Desarrollado 100% en **Rust** para seguridad de memoria crítica y prevención de *runtime exceptions*.
+*   **Estación Terrena:** Interfaz TUI (Terminal User Interface) con análisis de telemetría en tiempo real.
+*   **Inteligencia Artificial:** Implementación de **Gemma (SLM)** para análisis semántico de errores y reconstrucción de paquetes de telemetría corruptos (OFA - On-Flight Analysis).
+*   **Comunicaciones:** Enlace de datos seguro (SELinux) y transmisión de video 5.8GHz.
 
-- **docs/**: Contains the Technical Design Report.
-  - `TR-2-Vanguard.tex`: Main LaTeX source file.
-  - `TR-2-Vanguard.pdf`: Compiled report.
-  - `img/`: Images and figures used in the report.
+### 🪂 Sistemas de Recuperación
+*   **Estrategia:** Despliegue Dual (Dual Deploy) con *Jolly Logic Chute Release*.
+*   **Paracaídas Principal:** Diseño **Semi-Toroidal** basado en geometría no euclidiana para maximizar el coeficiente de arrastre ($C_d \approx 2.2$) y estabilidad de descenso.
+*   **Tren de Recuperación:** Híbrido Kevlar (Térmico) + Nylon Tubular (Elástico) para mitigación de cargas de choque.
 
-- **simulations/**: Engineering simulations and data.
-  - `openrocket/`: Flight simulations using OpenRocket (`.ork` files).
-  - `motors/`: Solid rocket motor characterization and design files (`.eng`, `.ric`) for OpenMotor.
+---
 
-## Gallery
+## 📂 Estructura del Repositorio
 
-### Vehicle Views
-<p float="left">
-  <img src="docs/img/TR-2-Vanguard-2.png" width="45%" />
-  <img src="docs/img/TR-2-Vanguard-3.png" width="45%" /> 
-</p>
+Este proyecto está organizado para escalar a medida que se añaden nuevos módulos de ingeniería:
 
-### Propulsion
-![Trinity Motor](docs/img/trinity.png)
+```
+TR-2-Vanguard/
+├── docs/               # Documentación técnica, Papers y Reportes (LaTeX/PDF)
+│   ├── img/            # Activos gráficos y diagramas
+│   └── TR-2-Vanguard.tex
+├── simulations/        # Modelos físicos y matemáticos
+│   ├── openrocket/     # Archivos de simulación de vuelo (.ork)
+│   └── motors/         # Curvas de empuje y simulación balística (.eng, .ric)
+├── src/                # (Próximamente) Código fuente del Flight Core (Rust)
+├── ground_station/     # (Próximamente) Software de control terrestre y modelos IA
+└── hardware/           # (Próximamente) Planos CAD, diagramas esquemáticos y PCBs
+```
 
-## Tools Required
+## 🛠️ Requisitos de Desarrollo
 
-- **LaTeX**: For compiling the documentation.
-- **OpenRocket**: For flight path and stability analysis.
-- **OpenMotor**: For internal ballistics simulation.
+Para compilar la documentación y ejecutar futuras simulaciones:
+
+*   **LaTeX:** TeX Live o distribución similar (para generar los PDFs en `/docs`).
+*   **OpenRocket:** Java Runtime Environment (JRE).
+*   **Rust Toolchain:** `cargo`, `rustc` (para el software de vuelo).
+
+## 📄 Licencia y Referencias
+
+Este proyecto utiliza estándares de la *Tripoli Rocketry Association* y referencias académicas (MIT Rocket Team, Nakka Rocketry) detalladas en la documentación técnica.
+
+---
+*Generado automáticamente el 2 de Diciembre, 2025.*
