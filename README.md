@@ -2,7 +2,7 @@
 
 > **Misión de Certificación L2 / Plataforma de Investigación Experimental**
 >
-> *Deep Space Technologies (DST)*
+> *Dragons Space Team (DST)*
 
 El **TR-2 Vanguard** es un vehículo de lanzamiento de alta potencia diseñado para validar tecnologías avanzadas de propulsión, aviónica y recuperación. Este repositorio contiene la documentación técnica, simulaciones, código fuente y diseños de hardware del proyecto completo.
 
